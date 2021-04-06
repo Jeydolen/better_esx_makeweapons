@@ -1,6 +1,5 @@
-# esx_makeweapons_znajak
-esx_makeweapons
-Simple script which introduces weapon creating to your fivem server
+# better_esx_makeweapons
+Simple script which introduces weapon creating to your fivem server forked from znajak
 
 https://www.youtube.com/watch?v=vX_V12uP7Zs
 
