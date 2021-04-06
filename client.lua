@@ -1,6 +1,4 @@
 -- esx_makeweapons by Znajak
--- All rights reserved ©2019
--- Jeśli potrzebujesz pomocy dołącz na https://discord.gg/GgaMnNC
 ESX = nil
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -18,10 +16,10 @@ end
 
 function menu_makeweapons(menu_name)
 	local elements = {
-		{label = "Złóż AK-47",value = '1'},
-		{label = "Złóż SNS Pistol Mk II",value = '2'},
-		{label = "Złóż SMG",value = '3'},
-		{label = "Złóż Heavy Sniper",value = '4'}
+		{label = "Assembler une AK-47", 		weapon = 'AK47'},
+		{label = "Assembler une Pistolet SNS", 	weapon = 'SNS'},
+		{label = "Assembler une mitrailette", 	weapon = 'SMG'},
+		{label = "Assembler un Sniper lourd", 	weapon = 'SNIPER'}
 	}
 
 	ESX.UI.Menu.CloseAll()
@@ -32,12 +30,12 @@ function menu_makeweapons(menu_name)
 		align    = 'top-left',
 		elements = elements
 	}, function(data, menu)
-		local action = data.current.value
+		local action = data.current.weapon
 		if craft == false then
 			craft = true
 			TriggerServerEvent('esx_makeweapons:craftweapon', action)
 		else
-			ESX.ShowNotification('Jesteś w trakcie wytwarzania broni!')
+			ESX.ShowNotification('Vous êtes en train de fabriquer des armes!')
 		end
 	ESX.UI.Menu.CloseAll()
 	end, function(data, menu)
@@ -50,7 +48,6 @@ Citizen.CreateThread(function()
         Wait(0)
         local coords = GetEntityCoords(GetPlayerPed(-1))
         for k,v in pairs(Config.Zones) do
-            --if PlayerData.job ~= nil and PlayerData.job.name == 'arcadius' then
                 if(v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < 2) then
                     DisplayHelpText(v.Text)
                 end
@@ -66,21 +63,21 @@ Citizen.CreateThread(function()
 							craft = true
 							TriggerServerEvent('esx_makeweapons:craftbarrel')
 						else
-							ESX.ShowNotification('Jesteś w trakcie wytwarzania lufy!')
+							ESX.ShowNotification('Vous êtes en train de fabriquer un tonneau!')
 						end
 					elseif v.menu_label == "spring_craft" then
 						if craft == false then
 							craft = true
 							TriggerServerEvent('esx_makeweapons:craftspring')
 						else
-							ESX.ShowNotification('Jesteś w trakcie wytwarzania sprężyny!')
+							ESX.ShowNotification('Vous êtes en train de fabriquer un ressort!')
 						end
 					elseif v.menu_label == "lock_craft" then
 						if craft == false then
 							craft = true
 							TriggerServerEvent('esx_makeweapons:craftlock')
 						else
-							ESX.ShowNotification('Jesteś w trakcie wytwarzania zamka!')
+							ESX.ShowNotification('Vous êtes en train de fabriquer une gachette!')
 						end
 					end
                 end

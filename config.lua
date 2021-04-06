@@ -1,17 +1,15 @@
--- Jeśli potrzebujesz pomocy dołącz na https://discord.gg/GgaMnNC
-
 Config = {}
 
-Config.chance = 50--Ile % na wytworzenie broni
-Config.damage = 10--Ile dmg ma otrzymać gracz po nieudanym wytworzeniu broni
+Config.chance = 50
+Config.damage = 10
 
 Config.Zones = {
 	make_weapons = {
 		Pos = {x = 287.24, y = -1065.82, z = 28.52},
         Size  = {x = 2.0, y = 2.0, z = 2.0},
         Color = {r = 136, g = 243, b = 216},
-        Name  = "Tworzenie broni",
-		Text = "Nacisnij ~INPUT_CONTEXT~ aby wytworzyć broń",
+        Name  = "Créer des armes",
+		Text = "Appuyez sur ~INPUT_CONTEXT~ pour fabriquer une arme",
         Type  = 27,
 		menu_label = "make_weapons"
 	},
@@ -19,8 +17,8 @@ Config.Zones = {
 		Pos = {x = 277.24, y = -1065.82, z = 28.52},
         Size  = {x = 2.0, y = 2.0, z = 2.0},
         Color = {r = 136, g = 243, b = 216},
-        Name  = "Tworzenie lufy",
-		Text = "Nacisnij ~INPUT_CONTEXT~ aby wytworzyć lufe",
+        Name  = "Création du canon",
+		Text = "Appuyez sur ~INPUT_CONTEXT~ pour fabriquer un canon",
         Type  = 27,
 		menu_label = "barrel_craft"
 	},
@@ -28,8 +26,8 @@ Config.Zones = {
 		Pos = {x = 277.24, y = -1060.82, z = 28.52},
         Size  = {x = 2.0, y = 2.0, z = 2.0},
         Color = {r = 136, g = 243, b = 216},
-        Name  = "Tworzenie sprężyny",
-		Text = "Nacisnij ~INPUT_CONTEXT~ aby wytworzyć sprężyne",
+        Name  = "Création du ressort",
+		Text = "Appuyez sur ~INPUT_CONTEXT~ pour fabriquer un ressort",
         Type  = 27,
 		menu_label = "spring_craft"
 	},
@@ -37,10 +35,9 @@ Config.Zones = {
 		Pos = {x = 277.24, y = -1055.82, z = 28.52},
         Size  = {x = 2.0, y = 2.0, z = 2.0},
         Color = {r = 136, g = 243, b = 216},
-        Name  = "Tworzenie zamka",
-		Text = "Nacisnij ~INPUT_CONTEXT~ aby wytworzyć zamek",
+        Name  = "Créer une gachette",
+		Text = "Appuyez sur ~INPUT_CONTEXT~ pour fabriquer une gachette",
         Type  = 27,
 		menu_label = "lock_craft"
 	}
-	
 }

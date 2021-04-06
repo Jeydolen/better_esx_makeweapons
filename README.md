@@ -6,26 +6,11 @@ https://www.youtube.com/watch?v=vX_V12uP7Zs
 
 ITEMS to SQL
 
-sprezyna_ak47
+( ak47, sns, sniper, smg )
 
-zamek_ak47
+barrel_ ( ak47, sns, sniper, smg )
 
-lufa_ak47
+spring_ ( ak47, sns, sniper, smg )
 
-sprezyna_sns
+lock_ 	( ak47, sns, sniper, smg )
 
-zamek_sns
-
-lufa_sns
-
-sprezyna_smg
-
-zamek_smg
-
-lufa_smg
-
-sprezyna_sniper
-
-zamek_sniper
-
-lufa_sniper

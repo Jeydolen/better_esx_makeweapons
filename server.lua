@@ -1,190 +1,78 @@
--- esx_makeweapons by Znajak
--- All rights reserved ©2019
--- Jeśli potrzebujesz pomocy dołącz na https://discord.gg/GgaMnNC
+-- esx_makeweapons by Znajak forked by Jeydolen
+local component_names = {"barrel","lock","spring"}
+local weapons = { 
+	ak47 	= {weapon_hash = 'weapon_assaultrifle', luck = 25 }, 
+	sns 	= {weapon_hash = 'weapon_snspistol', 	luck = 50 },
+	smg 	= {weapon_hash = 'weapon_smg', 			luck = 75 },
+	sniper 	= {weapon_hash = 'weapon_heavysniper', 	luck = 100},
+}
+
 ESX	= nil
-TriggerEvent('esx:getSharedObject', function(obj)
-	ESX = obj
-end)
+TriggerEvent('esx:getSharedObject', function(obj)	ESX = obj	end)
+
+function registerComponent(name)
+	RegisterServerEvent('esx_makeweapons:craft'..name)
+	AddEventHandler('esx_makeweapons:craft'..name, function() craft_component(source, name) end)
+end
+
+for i,v in ipairs(component_names) do registerComponent(v)	end
+
 RegisterServerEvent('esx_makeweapons:craftweapon')
-AddEventHandler('esx_makeweapons:craftweapon', function(action)
-	local action = action
-	local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
-	local randomNumber = math.random(0,100)
-	if action == '1' then
-		if xPlayer.getInventoryItem('sprezyna_ak47').count >= 1 and xPlayer.getInventoryItem('zamek_ak47').count >= 1 and xPlayer.getInventoryItem('lufa_ak47').count >= 1 then
-			xPlayer.removeInventoryItem('sprezyna_ak47', 1)
-			xPlayer.removeInventoryItem('zamek_ak47', 1)
-			xPlayer.removeInventoryItem('lufa_ak47', 1)
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Tworzenie AK-47..')
-			TriggerClientEvent('esx_makeweapons:startanim', _source)
-			Citizen.Wait(5000)
-			if randomNumber <= Config.chance then
-				xPlayer.addWeapon('WEAPON_ASSAULTRIFLE')
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś AK-47')
-			else
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Sprężyna wystrzeliła Ci prosto w twarz!')
-				TriggerClientEvent('esx_makeweapons:givedamage', _source)
-			end
-			TriggerClientEvent('esx_makeweapons:stopanim', _source)
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		else
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Nie posiadasz wymaganych materiałów!')
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		end
-	elseif action == '2' then
-		if xPlayer.getInventoryItem('sprezyna_sns').count >= 1 and xPlayer.getInventoryItem('zamek_sns').count >= 1 and xPlayer.getInventoryItem('lufa_sns').count >= 1 then
-			xPlayer.removeInventoryItem('sprezyna_sns', 1)
-			xPlayer.removeInventoryItem('zamek_sns', 1)
-			xPlayer.removeInventoryItem('lufa_sns', 1)
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Tworzenie SNS Pistol MK2..')
-			TriggerClientEvent('esx_makeweapons:startanim', _source)
-			Citizen.Wait(5000)
-			if randomNumber <= Config.chance then
-				xPlayer.addWeapon('WEAPON_SNSPISTOL_MK2')
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś SNS Pistol MK2')
-			else
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Sprężyna wystrzeliła Ci prosto w twarz!')
-				TriggerClientEvent('esx_makeweapons:givedamage', _source)
-			end
-			TriggerClientEvent('esx_makeweapons:stopanim', _source)
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		else
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Nie posiadasz wymaganych materiałów!')
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		end
-	elseif action == '3' then
-		if xPlayer.getInventoryItem('sprezyna_smg').count >= 1 and xPlayer.getInventoryItem('zamek_smg').count >= 1 and xPlayer.getInventoryItem('lufa_smg').count >= 1 then
-			xPlayer.removeInventoryItem('sprezyna_smg', 1)
-			xPlayer.removeInventoryItem('zamek_smg', 1)
-			xPlayer.removeInventoryItem('lufa_smg', 1)
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Tworzenie SMG..')
-			TriggerClientEvent('esx_makeweapons:startanim', _source)
-			Citizen.Wait(5000)
-			if randomNumber <= Config.chance then
-				xPlayer.addWeapon('WEAPON_SMG')
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś SMG')
-			else
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Sprężyna wystrzeliła Ci prosto w twarz!')
-				TriggerClientEvent('esx_makeweapons:givedamage', _source)
-			end
-			TriggerClientEvent('esx_makeweapons:stopanim', _source)
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		else
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Nie posiadasz wymaganych materiałów!')
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		end
-	elseif action == '4' then
-		if xPlayer.getInventoryItem('sprezyna_sniper').count >= 1 and xPlayer.getInventoryItem('zamek_sniper').count >= 1 and xPlayer.getInventoryItem('lufa_sniper').count >= 1 then
-			xPlayer.removeInventoryItem('sprezyna_sniper', 1)
-			xPlayer.removeInventoryItem('zamek_sniper', 1)
-			xPlayer.removeInventoryItem('lufa_sniper', 1)
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Tworzenie Ciężkiego Karabinu Snajperskiego..')
-			TriggerClientEvent('esx_makeweapons:startanim', _source)
-			Citizen.Wait(5000)
-			if randomNumber <= Config.chance then
-				xPlayer.addWeapon('WEAPON_HEAVYSNIPER')
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś Ciężki Karabin Snajperski')
-			else
-				TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Sprężyna wystrzeliła Ci prosto w twarz!')
-				TriggerClientEvent('esx_makeweapons:givedamage', _source)
-			end
-			TriggerClientEvent('esx_makeweapons:stopanim', _source)
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		else
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Nie posiadasz wymaganych materiałów!')
-			TriggerClientEvent('esx_makeweapons:craftend', _source)
-		end
-	end
-	
-end)
-RegisterServerEvent('esx_makeweapons:craftbarrel')
-AddEventHandler('esx_makeweapons:craftbarrel', function()
-	local _source = source
+AddEventHandler('esx_makeweapons:craftweapon', function(weapon_name) craft_weapon(source, weapon_name) end)
+
+function showNotif(source, msg)	
+	TriggerClientEvent('esx_makeweapons:shownotification', source, msg)	
+end
+
+function craft_component (_source, component)
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local randomNumber = math.random(0,100)
 	local randomNumber_weapon = math.random(0,100)
-	--stalowe pręty 50
-	TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Tworzenie lufy..')
+	local weapon = 'null'
+	showNotif(_source,'Création du '..component)
 	TriggerClientEvent('esx_makeweapons:startanim', _source)
 	Citizen.Wait(5000)
+
 	if randomNumber <= Config.chance then
-		if randomNumber_weapon <= 25 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś lufe (AK-47)')
-			xPlayer.addInventoryItem('lufa_ak47', 1)
-		elseif randomNumber_weapon > 25 and randomNumber_weapon <= 50 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś lufe (SNS Pistol MK2)')
-			xPlayer.addInventoryItem('lufa_sns', 1)		
-		elseif randomNumber_weapon > 50 and randomNumber_weapon <= 75 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś lufe (SMG)')
-			xPlayer.addInventoryItem('lufa_smg', 1)		
-		elseif randomNumber_weapon > 75 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś lufe (Heavy Sniper)')
-			xPlayer.addInventoryItem('lufa_sniper', 1)		
-		end
-	else
-		TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Lufa wyszła pogięta!')
-	end
+		if randomNumber_weapon <= 25 then									weapon = 'ak47'
+		elseif randomNumber_weapon > 25 and randomNumber_weapon <= 50 then	weapon = 'sns'		
+		elseif randomNumber_weapon > 50 and randomNumber_weapon <= 75 then	weapon = 'smg'
+		elseif randomNumber_weapon > 75 then								weapon = 'sniper'	end
+		showNotif(_source,'Vous avez fabriqué un '..component..' ('..weapon..')')
+		xPlayer.addInventoryItem(component..'_'..weapon, 1)
+	else showNotif(_source,'Pendant la fabrication, ' ..component..' s\'est cassé !')			end
 	TriggerClientEvent('esx_makeweapons:stopanim', _source)
 	TriggerClientEvent('esx_makeweapons:craftend', _source)
-end)
-RegisterServerEvent('esx_makeweapons:craftlock')
-AddEventHandler('esx_makeweapons:craftlock', function()
-	local _source = source
+end
+
+function craft_weapon (_source, weapon_name)
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local randomNumber = math.random(0,100)
-	local randomNumber_weapon = math.random(0,100)
-	--zelazo 50
-	TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Tworzenie zamka..')
-	TriggerClientEvent('esx_makeweapons:startanim', _source)
-	Citizen.Wait(5000)
-	if randomNumber <= Config.chance then
-		if randomNumber_weapon <= 25 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś zamek (AK-47)')
-			xPlayer.addInventoryItem('zamek_ak47', 1)
-		elseif randomNumber_weapon > 25 and randomNumber_weapon <= 50 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś zamek (SNS Pistol MK2)')
-			xPlayer.addInventoryItem('zamek_sns', 1)		
-		elseif randomNumber_weapon > 50 and randomNumber_weapon <= 75 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś zamek (SMG)')
-			xPlayer.addInventoryItem('zamek_smg', 1)		
-		elseif randomNumber_weapon > 75 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś zamek (Heavy Sniper)')
-			xPlayer.addInventoryItem('zamek_sniper', 1)		
+	local weapon = weapon_name:lower()
+	local weapon_hash = 'null'
+
+	if 	xPlayer.getInventoryItem('spring_' .. weapon ).count >= 1 and xPlayer.getInventoryItem('lock_' .. weapon).count >= 1 and xPlayer.getInventoryItem('barrel_' .. weapon).count >= 1 then
+		for i,v in ipairs(component_names) do xPlayer.removeInventoryItem(v ..'_' .. weapon)	end
+		showNotif(_source, 'Fabrication de '..weapon..'..')
+		TriggerClientEvent('esx_makeweapons:startanim', _source)
+		Citizen.Wait(5000)
+		if randomNumber <= Config.chance then
+			if 		weapon == 'ak47' 	then 	weapon_hash = 'weapon_assaultrifle'
+			elseif 	weapon == 'sns'  	then 	weapon_hash = 'weapon_snspistol'
+			elseif 	weapon == 'smg'  	then 	weapon_hash = 'weapon_smg'
+			elseif 	weapon == 'sniper'	then 	weapon_hash = 'weapon_heavysniper'
+			end
+
+			xPlayer.addInventoryItem( weapon_hash, 1)
+			showNotif(_source, 'Vous avez reçu une ' .. weapon)
+		else
+			showNotif(_source, 'Un coup de ressort droit dans la gueule!')
+			TriggerClientEvent('esx_makeweapons:givedamage', _source)
 		end
+		TriggerClientEvent('esx_makeweapons:stopanim', _source)
+		TriggerClientEvent('esx_makeweapons:craftend', _source)
 	else
-		TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Zamek wypadł Ci z rąk i się zniszczył')
+		showNotif(_source, 'Vous n\'avez pas le matériel requis!')
+		TriggerClientEvent('esx_makeweapons:craftend', _source)
 	end
-	TriggerClientEvent('esx_makeweapons:stopanim', _source)
-	TriggerClientEvent('esx_makeweapons:craftend', _source)
-end)
-RegisterServerEvent('esx_makeweapons:craftspring')
-AddEventHandler('esx_makeweapons:craftspring', function()
-	local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
-	local randomNumber = math.random(0,100)
-	local randomNumber_weapon = math.random(0,100)
-	--miedziucha 50
-	TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Tworzenie sprężyny..')
-	TriggerClientEvent('esx_makeweapons:startanim', _source)
-	Citizen.Wait(5000)
-	if randomNumber <= Config.chance then
-		if randomNumber_weapon <= 25 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś sprężyne (AK-47)')
-			xPlayer.addInventoryItem('sprezyna_ak47', 1)
-		elseif randomNumber_weapon > 25 and randomNumber_weapon <= 50 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś sprężyne (SNS Pistol MK2)')
-			xPlayer.addInventoryItem('sprezyna_sns', 1)		
-		elseif randomNumber_weapon > 50 and randomNumber_weapon <= 75 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś sprężyne (SMG)')
-			xPlayer.addInventoryItem('sprezyna_smg', 1)		
-		elseif randomNumber_weapon > 75 then
-			TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Otrzymałeś sprężyne (Heavy Sniper)')
-			xPlayer.addInventoryItem('sprezyna_sniper', 1)		
-		end
-	else
-		TriggerClientEvent('esx_makeweapons:shownotification', _source, 'Podczas nawijania, sprężyna pękła')
-	end
-	TriggerClientEvent('esx_makeweapons:stopanim', _source)
-	TriggerClientEvent('esx_makeweapons:craftend', _source)
-end)
+end
