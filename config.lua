@@ -1,7 +1,8 @@
 Config = {}
 
 Config.chance = 50
-Config.damage = 10
+
+Config.waiting_time = 5000
 
 Config.Zones = {
 	make_weapons = {
@@ -40,4 +41,13 @@ Config.Zones = {
         Type  = 27,
 		menu_label = "lock_craft"
 	}
+}
+
+Config.component_names = {"barrel","lock","spring"}
+
+Config.weapons = { 
+	ak47 	= { weapon_hash = 'weapon_assaultrifle', 	luck = 1 }, 
+	sns 	= { weapon_hash = 'weapon_snspistol', 		luck = 2 },
+	smg 	= { weapon_hash = 'weapon_smg', 			luck = 3 },
+	sniper 	= { weapon_hash = 'weapon_heavysniper', 	luck = 4 },
 }
