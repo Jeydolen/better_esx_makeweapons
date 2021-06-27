@@ -5,76 +5,47 @@ local weapons 			= Config.weapons
 ESX	= nil
 TriggerEvent('esx:getSharedObject', function(obj)	ESX = obj	end)
 
-function registerComponent(name)
-	RegisterServerEvent('esx_makeweapons:craft'..name)
-	AddEventHandler('esx_makeweapons:craft'..name, function() 
-		craft(source, name, 'component') 
-	end)
-end
-
-for i,v in ipairs(component_names) do registerComponent(v)	end
-
-RegisterServerEvent('esx_makeweapons:craftweapon')
-AddEventHandler('esx_makeweapons:craftweapon', function(weapon_name) 
-	craft(source, weapon_name, 'weapon') 
-end)
-
-function showNotif(source, msg)	TriggerClientEvent('esx_makeweapons:shownotification', source, msg)	end
+RegisterServerEvent('esx_makeweapons:craft')
+AddEventHandler('esx_makeweapons:craft', function(name, item_type) craft(source, name, item_type)  end)
 
 function craft(source, item, item_type) 
-	local xPlayer, result_item, enough_component = ESX.GetPlayerFromId(source)
-	local item = item:lower()
-	showNotif(source,'Fabrication de '..item..'...')
-	TriggerClientEvent('esx_makeweapons:startanim', source)
-	Citizen.Wait(Config.waiting_time)
+	local xPlayer, result_item, enough_component, i,t,n = ESX.GetPlayerFromId(source)
+	xPlayer.showNotification('Fabrication de '..item..'...')
+	xPlayer.TriggerEvent('esx_makeweapons:startanim')
+	Wait(Config.waiting_time)
 	
-	if item_type == 'weapon' then
-		for i,v in ipairs(component_names) do enough_component = check_enough_component(source, v..'_'..item, 1) end
-			if enough_component then
-				for i,v in ipairs(component_names) do xPlayer.removeInventoryItem(v..'_'..item, 1) end
-			else 
-				TriggerClientEvent('esx_makeweapons:stopanim', source)
-				TriggerClientEvent('esx_makeweapons:craftend', source)	
-				return showNotif(source,'Pas assez de matériaux') 
-			end
+	if item_type == 'weapon' then 	i = weapons[item].weapon_type 	t = component_names
+	else 							i = item 						t = Config.components end
+	
+	local enough_component = CheckEnoughComponent(i,t,item_type)
+	if enough_component then
+		if item_type == 'weapon' for _,v in ipairs(t)   do xPlayer.removeInventoryItem(weapons[item].weapon_type'_'..v, 1) end
+		else 					 for k,v in pairs(t[item]) do xPlayer.removeInventoryItem(k,v) end end
+	else
+		xPlayer.TriggerEvent('esx_makeweapons:craftend')	
+		return xPlayer.showNotification('Pas assez de matériaux') 
 	end
 	
 	if (math.random(0,100) <= Config.chance) then
 		if item_type == 'component' then
-			local randomNum, weapon = math.random(1, get_table_length(weapons))
-			for k,v in pairs(weapons) do
-				for key,luck in pairs(weapons[k]) do
-					if key == 'luck' then
-						if 	randomNum == luck then weapon = k break end
-					end
-				end
-			end
-			result_item = ( item..'_'..weapon )
-		elseif item_type == 'weapon' then
-			for k,v in pairs(weapons) do
-				if 	item == k then 
-					for key,val in pairs(weapons[k]) do 
-						if ( key == 'weapon_hash' ) then result_item = val end 
-					end 
-				end
-			end
-		end
+			local randomNum, weapon_type = math.random(1, #weapons)
+			for _,v in ipairs(weapons) do if randomNum == _ then weapon_type = weapons[_].weapon_type break end end
+			result_item = (item..'_'..weapon_type)
+		else result_item = weapons[k].weapon_hash end
 
 		if result_item ~= nil then
-			showNotif(source,'Vous avez fabriqué un '..result_item)
-			xPlayer.addInventoryItem( result_item, 1)
+			xPlayer.showNotification('Vous avez fabriqué un '..result_item)
+			if item_type == 'weapon' then xPlayer.addWeapon(result_item, 256)
+			else xPlayer.addInventoryItem(result_item, 1) end
 		end
-	else showNotif(source,'Pendant la fabrication, ' ..item..' s\'est cassé !')	end
-	TriggerClientEvent('esx_makeweapons:stopanim', source)
-	TriggerClientEvent('esx_makeweapons:craftend', source)
+	else xPlayer.showNotification('Pendant la fabrication, ' ..item..' s\'est cassé !')	end
+	xPlayer.TriggerEvent('esx_makeweapons:craftend')
 end 
 
-function check_enough_component(source, item, number_required)
-	return ESX.GetPlayerFromId(source).getInventoryItem(item).count >= number_required
-end
-
-function get_table_length (table_arg)
-	local count = 0
-	for i,v in pairs(table_arg) do count = count +1 end
-	return count
+function CheckEnoughComponent(a, t, it)
+	local check = true
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if it == 'weapon' then 	for _,v in ipairs(t) 	do if not xPlayer.getInventoryItem(a..'_'..v).count <= req 	then check = false end end
+	else 					for k,v in pairs(t[a]) 	do if not xPlayer.getInventoryItem(k).count <= v 			then check = false end end end
+	return check
 end

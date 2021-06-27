@@ -13,5 +13,5 @@ spring_ (ak47, sns, sniper, smg)
 
 lock_ (ak47, sns, sniper, smg)
 
-#changelog
+# changelog
 Not tested yet but you can now add new components and weapons to craft
